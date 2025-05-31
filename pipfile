@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+sqlalchemy = "*"
+alembic = "*"
+faker = "*"  # For seeding test data
+click = "*"  # For CLI framework (recommended for easier menu handling)
+
+[dev-packages]
+ipdb = "*"  # For debugging
+
+[requires]
+python_version = "3.8"

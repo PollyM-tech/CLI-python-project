@@ -1,0 +1,1 @@
+__pycache__/\n*.pyc\n.Python\nenv/\nvenv/\n*.egg-info/\n*.db\nmigrations/
