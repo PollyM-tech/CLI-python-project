@@ -11,13 +11,13 @@ def list_subscriptions():
         print("\n🚫 No subscriptions found.")
         return
     
-    print("\n📋 Subscriptions:")
+    print("\n Subscriptions:")
     for sub in subs:
         print(f"{sub.id}. Customer: {sub.customer.name} | Plan: {sub.plan.name} | Status: {sub.status}")
         print(f"    Start: {format_date(sub.start_date)} → End: {format_date(sub.end_date)}")
 
 def create_subscription():
-    print("\n➕ Create Subscription (type 'q' to cancel)")
+    print("\nCreate Subscription (type 'q' to cancel)")
 
     customers = Customer.get_all()
     plans = Plan.get_all()

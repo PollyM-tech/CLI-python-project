@@ -22,6 +22,9 @@ Python 3.8+
 Visualize the schema at:  
 🔗 [DB Diagram](https://dbdiagram.io/d/CLI-Internet-Service-Manager-68343a530240c65c4438b599)
 
+## Demo video
+https://drive.google.com/drive/folders/1CLYZ9HJgCi3PmQSVKdqnnJhL2rs_ElyG
+
 **Tables & Relationships**:
 - `Customer` (one-to-many) → `Subscription`
 - `Plan` (one-to-many) → `Subscription`
