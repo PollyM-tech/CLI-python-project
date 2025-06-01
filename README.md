@@ -44,8 +44,6 @@ This app uses a virtual environment via **Pipenv**.
 
 ## Setup Instructions
 1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/your-username/cli-internet-service-manager.git
    cd cli-internet-service-manager
 
 2. Create virtual environment
