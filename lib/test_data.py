@@ -12,8 +12,8 @@ def run_database_tests():
     total_subscriptions = session.query(Subscription).count()
 
     print(f"👤 Customers:           {total_customers}")
-    print(f"📶 Internet Plans:      {total_plans}")
-    print(f"📦 Subscriptions:       {total_subscriptions}")
+    print(f" Internet Plans:      {total_plans}")
+    print(f" Subscriptions:       {total_subscriptions}")
 
     # Sample customer relationship check
     print("\n🔗 Testing relationships...")
@@ -30,7 +30,7 @@ def run_database_tests():
         ~Subscription.customer.has() | ~Subscription.plan.has()
     ).count()
 
-    print(f"\n🧹 Orphaned Subscriptions: {orphans}")
+    print(f"\n Orphaned Subscriptions: {orphans}")
     if orphans == 0:
         print("✅ All subscriptions are correctly linked to customers and plans.")
     else:
@@ -46,7 +46,7 @@ def run_database_tests():
     ).count()
 
     print(f"✉️  Customers without email: {missing_emails}")
-    print(f"📡 Customers without router_id: {missing_routers}")
+    print(f" Customers without router_id: {missing_routers}")
     if duplicates_email:
         print("❌ Duplicate emails found!")
     else:

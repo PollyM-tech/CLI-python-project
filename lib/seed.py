@@ -28,10 +28,10 @@ if not args.no_reset:
     create_tables()
     print("✔ Tables cleared and recreated")
 else:
-    print("ℹ️  Skipping table reset")
+    print(" Skipping table reset")
 
 # === Seed Plans ===
-print(f"\n📶 Creating {args.plans} internet plans...")
+print(f"\n Creating {args.plans} internet plans...")
 default_plans = [
     {"name": "Basic", "speed": "3 Mbps", "price": 1200, "duration": 1},
     {"name": "Standard", "speed": "5 Mbps", "price": 2500, "duration": 3},
@@ -75,7 +75,7 @@ for _ in range(args.customers):
 print(f"✔ Created {len(customers)} customers")
 
 # === Seed Subscriptions ===
-print(f"\n📦 Creating {args.subscriptions} subscriptions...")
+print(f"\n Creating {args.subscriptions} subscriptions...")
 subscriptions = []
 statuses = ["active", "suspended", "expired", "terminated"]
 
@@ -117,11 +117,11 @@ print("\n=== 👤 SAMPLE CUSTOMERS ===")
 for cust in customers[:3]:
     print(f"{cust.name} | {cust.email} | {cust.phone} | Router: {cust.router_id}")
 
-print("\n=== 📶 PLANS ===")
+print("\n=== PLANS ===")
 for plan in plans:
     print(f"{plan.name} | {plan.speed} | KSh {plan.price} for {plan.duration_months} months")
 
-print("\n=== 📦 SUBSCRIPTIONS ===")
+print("\n=== SUBSCRIPTIONS ===")
 for sub in subscriptions[:3]:
     print(f"{sub.customer.name} on {sub.plan.name} ({sub.status}) → Ends: {sub.end_date}")
 
