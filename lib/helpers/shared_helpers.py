@@ -15,5 +15,5 @@ def clear_screen():
     print("\n" * 50)
 
 def exit_program():
-    print("\nThank you for using Internet Service Manager. Goodbye!")
+    print("\nThank you for using 🌐 PLY Service Manager. Goodbye!")
     exit()

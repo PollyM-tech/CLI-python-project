@@ -1,139 +1,93 @@
+# lib/helpers/plan_helpers.py
+
 from models.plan import Plan
-from .shared_helpers import clear_screen
 
 def list_plans():
     plans = Plan.get_all()
     if not plans:
-        print("\nNo plans available!")
+        print("\n🚫 No plans available.")
         return
-    
-    print("\n=== INTERNET PLANS ===")
+    print("\n📶 All Internet Plans:")
     for plan in plans:
-        print(f"{plan.id}. {plan.name} | {plan.speed} | ${plan.price}/month")
+        print(f"{plan.id}. {plan.name} | {plan.speed} | KES {plan.price} / {plan.duration_months} months")
 
 def create_plan():
-    print("\n=== CREATE NEW PLAN ===")
-    name = input("Plan Name: ").strip()
+    print("\n➕ Create New Plan")
+    name = input("Name: ").strip()
     description = input("Description: ").strip()
-    
+    speed = input("Speed (e.g., 100Mbps): ").strip()
+    duration = int(input("Duration (months): ").strip())
+
     while True:
         try:
-            price = float(input("Monthly Price: ").strip())
+            price = float(input("Price (KES): ").strip())
             if price > 0:
                 break
-            print("Price must be positive.")
+            print("❌ Price must be positive.")
         except ValueError:
-            print("Please enter a valid number.")
-    
-    speed = input("Speed (e.g., '100 Mbps'): ").strip()
-    
-    while True:
-        try:
-            duration = int(input("Duration (months): ").strip())
-            if duration > 0:
-                break
-            print("Duration must be positive.")
-        except ValueError:
-            print("Please enter a whole number.")
-    
-    plan = Plan.create(
-        name=name,
-        description=description,
-        price=price,
-        speed=speed,
-        duration_months=duration
-    )
-    
+            print("❌ Invalid price.")
+
+    plan = Plan.create(name, description, price, speed, duration)
     if plan:
-        print(f"\nSuccessfully created plan: {plan.name}")
+        print(f"✅ Plan created: {plan.name}")
     else:
-        print("\nFailed to create plan.")
+        print("❌ Failed to create plan.")
 
 def find_plan_by_name():
-    name = input("\nEnter plan name to search: ").strip()
+    name = input("Search plan by name: ").strip()
     plans = Plan.find_by_name(name)
-    
     if not plans:
-        print("\nNo matching plans found!")
+        print("❌ No plans found.")
         return
-    
-    print("\n=== MATCHING PLANS ===")
     for plan in plans:
-        print(f"{plan.id}. {plan.name} | {plan.speed} | ${plan.price}")
+        print(f"{plan.id}. {plan.name} | {plan.speed} | KES {plan.price}")
 
 def update_plan():
     list_plans()
     try:
-        plan_id = int(input("\nEnter plan ID to update: ").strip())
+        plan_id = int(input("\nEnter Plan ID: ").strip())
     except ValueError:
-        print("Invalid ID format.")
+        print("❌ Invalid ID.")
         return
-    
+
     plan = Plan.find_by_id(plan_id)
     if not plan:
-        print("Plan not found!")
+        print("❌ Plan not found.")
         return
-    
-    print("\nLeave blank to keep current value")
+
     name = input(f"Name [{plan.name}]: ").strip() or plan.name
     description = input(f"Description [{plan.description}]: ").strip() or plan.description
-    
-    while True:
-        price = input(f"Price [{plan.price}]: ").strip()
-        if not price:
-            price = plan.price
-            break
-        try:
-            price = float(price)
-            if price > 0:
-                break
-            print("Price must be positive.")
-        except ValueError:
-            print("Invalid number format.")
-    
     speed = input(f"Speed [{plan.speed}]: ").strip() or plan.speed
-    
-    while True:
-        duration = input(f"Duration (months) [{plan.duration_months}]: ").strip()
-        if not duration:
-            duration = plan.duration_months
-            break
-        try:
-            duration = int(duration)
-            if duration > 0:
-                break
-            print("Duration must be positive.")
-        except ValueError:
-            print("Invalid number format.")
-    
-    updated = Plan.update(
-        plan_id,
-        name=name,
-        description=description,
-        price=price,
-        speed=speed,
-        duration_months=duration
-    )
-    
+    duration = input(f"Duration [{plan.duration_months}]: ").strip()
+    price = input(f"Price [{plan.price}]: ").strip()
+
+    try:
+        duration = int(duration) if duration else plan.duration_months
+        price = float(price) if price else plan.price
+    except ValueError:
+        print("❌ Invalid input.")
+        return
+
+    updated = Plan.update(plan_id, name=name, description=description, speed=speed, duration_months=duration, price=price)
     if updated:
-        print("\nPlan updated successfully!")
+        print("✅ Plan updated.")
     else:
-        print("\nFailed to update plan.")
+        print("❌ Update failed.")
 
 def delete_plan():
     list_plans()
     try:
-        plan_id = int(input("\nEnter plan ID to delete: ").strip())
+        plan_id = int(input("\nEnter Plan ID to delete: ").strip())
     except ValueError:
-        print("Invalid ID format.")
+        print("❌ Invalid ID.")
         return
-    
-    confirm = input(f"Are you sure you want to delete this plan? (y/n): ").lower()
+
+    confirm = input("Are you sure? (y/N): ").lower()
     if confirm != 'y':
-        print("Deletion cancelled.")
+        print("🚫 Cancelled.")
         return
-    
+
     if Plan.delete(plan_id):
-        print("Plan deleted successfully!")
+        print("✅ Plan deleted.")
     else:
-        print("Failed to delete plan.")
+        print("❌ Failed to delete.")

@@ -1,61 +1,55 @@
+# lib/models/plan.py
 from sqlalchemy import Column, Integer, String, Numeric, DateTime
 from sqlalchemy.sql import func
-from . import Base, session
 from sqlalchemy.orm import relationship
-
+from . import Base, session
 
 class Plan(Base):
     __tablename__ = 'plans'
-    
+
     id = Column(Integer, primary_key=True)
-    name = Column(String)
+    name = Column(String, nullable=False)
     description = Column(String)
-    price = Column(Numeric(10, 2))
-    speed = Column(String)
-    duration_months = Column(Integer)
+    price = Column(Numeric(10, 2), nullable=False)
+    speed = Column(String, nullable=False)
+    duration_months = Column(Integer, nullable=False)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
-    
-    subscriptions = relationship("Subscription", back_populates="plan")
 
-    # ORM Methods
+    subscriptions = relationship("Subscription", back_populates="plan", cascade="all, delete-orphan")
+
     @classmethod
     def create(cls, name, description, price, speed, duration_months):
-        """Create a new plan"""
         try:
-            new_plan = cls(
+            plan = cls(
                 name=name,
                 description=description,
                 price=price,
                 speed=speed,
                 duration_months=duration_months
             )
-            session.add(new_plan)
+            session.add(plan)
             session.commit()
-            return new_plan
+            return plan
         except Exception as e:
             session.rollback()
-            print(f"Error creating plan: {e}")
+            print(f"❌ Error creating plan: {e}")
             return None
-    
+
     @classmethod
     def get_all(cls):
-        """Get all plans"""
         return session.query(cls).all()
-    
+
     @classmethod
     def find_by_id(cls, id):
-        """Find plan by ID"""
         return session.query(cls).filter_by(id=id).first()
-    
+
     @classmethod
     def find_by_name(cls, name):
-        """Find plan by name"""
         return session.query(cls).filter(cls.name.ilike(f"%{name}%")).all()
-    
+
     @classmethod
     def update(cls, id, **kwargs):
-        """Update plan attributes"""
         try:
             plan = cls.find_by_id(id)
             if plan:
@@ -66,12 +60,11 @@ class Plan(Base):
             return None
         except Exception as e:
             session.rollback()
-            print(f"Error updating plan: {e}")
+            print(f"❌ Error updating plan: {e}")
             return None
-    
+
     @classmethod
     def delete(cls, id):
-        """Delete a plan"""
         try:
             plan = cls.find_by_id(id)
             if plan:
@@ -81,8 +74,8 @@ class Plan(Base):
             return False
         except Exception as e:
             session.rollback()
-            print(f"Error deleting plan: {e}")
+            print(f"❌ Error deleting plan: {e}")
             return False
-    
+
     def __repr__(self):
-        return f"<Plan {self.id}: {self.name} ({self.speed}) - ${self.price}/month>"
+        return f"<Plan {self.id}: {self.name} ({self.speed}) - KES {self.price}/mo>"

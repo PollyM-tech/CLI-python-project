@@ -3,19 +3,19 @@
 from helpers import (
     clear_screen,
     exit_program,
-    # Customer functions
+    # Customer
     list_customers,
     create_customer,
     find_customer_by_email,
     update_customer,
     delete_customer,
-    # Plan functions
+    # Plan
     list_plans,
     create_plan,
     find_plan_by_name,
     update_plan,
     delete_plan,
-    # Subscription functions
+    # Subscription
     list_subscriptions,
     create_subscription,
     find_subscriptions_by_customer,
@@ -24,11 +24,11 @@ from helpers import (
 
 def main():
     clear_screen()
-    print("=== INTERNET SERVICE MANAGER ===")
+    print("=== 🌐 PLY SERVICE MANAGER ===")
     while True:
         main_menu()
         choice = input("\nEnter your choice: ").strip()
-        
+
         if choice == "0":
             exit_program()
         elif choice == "1":
@@ -38,27 +38,30 @@ def main():
         elif choice == "3":
             subscription_menu()
         else:
-            print("Invalid choice. Please try again.")
+            print("❌ Invalid choice. Please try again.")
 
+# ========== MAIN MENU ==========
 def main_menu():
-    print("\nMAIN MENU")
-    print("1. Customer Management")
+    print("\n MAIN MENU")
+    print("1. 👤 Customer Management")
     print("2. Plan Management")
     print("3. Subscription Management")
     print("0. Exit")
 
+# ========== CUSTOMER MENU ==========
 def customer_menu():
     while True:
-        print("\nCUSTOMER MANAGEMENT")
+        print("\n👤 CUSTOMER MANAGEMENT")
         print("1. List all customers")
         print("2. Add new customer")
         print("3. Find customer by email")
         print("4. Update customer")
         print("5. Delete customer")
+        print("6. View subscriptions for customer")
         print("0. Back to main menu")
-        
+
         choice = input("\nEnter your choice: ").strip()
-        
+
         if choice == "0":
             break
         elif choice == "1":
@@ -71,9 +74,12 @@ def customer_menu():
             update_customer()
         elif choice == "5":
             delete_customer()
+        elif choice == "6":
+            find_subscriptions_by_customer()
         else:
-            print("Invalid choice. Please try again.")
+            print("❌ Invalid choice.")
 
+# ========== PLAN MENU ==========
 def plan_menu():
     while True:
         print("\nPLAN MANAGEMENT")
@@ -83,9 +89,9 @@ def plan_menu():
         print("4. Update plan")
         print("5. Delete plan")
         print("0. Back to main menu")
-        
+
         choice = input("\nEnter your choice: ").strip()
-        
+
         if choice == "0":
             break
         elif choice == "1":
@@ -99,31 +105,33 @@ def plan_menu():
         elif choice == "5":
             delete_plan()
         else:
-            print("Invalid choice. Please try again.")
+            print("❌ Invalid choice.")
 
+# ========== SUBSCRIPTION MENU ==========
 def subscription_menu():
     while True:
         print("\nSUBSCRIPTION MANAGEMENT")
-        print("1. Create new subscription")
-        print("2. List all subscriptions")
+        print("1. List all subscriptions")
+        print("2. Create new subscription")
         print("3. Find subscriptions by customer")
         print("4. Update subscription status")
         print("0. Back to main menu")
-        
+
         choice = input("\nEnter your choice: ").strip()
-        
+
         if choice == "0":
             break
         elif choice == "1":
-            create_subscription()
-        elif choice == "2":
             list_subscriptions()
+        elif choice == "2":
+            create_subscription()
         elif choice == "3":
             find_subscriptions_by_customer()
         elif choice == "4":
             update_subscription_status()
         else:
-            print("Invalid choice. Please try again.")
+            print("❌ Invalid choice.")
 
+# ========== RUN ==========
 if __name__ == "__main__":
     main()
