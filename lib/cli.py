@@ -19,7 +19,9 @@ from helpers import (
     list_subscriptions,
     create_subscription,
     find_subscriptions_by_customer,
-    update_subscription_status
+    update_subscription_status,
+    list_expiring_subscriptions,
+    filter_subscriptions_by_status  # ✅ Optional new feature
 )
 
 def main():
@@ -27,9 +29,9 @@ def main():
     print("=== 🌐 PLY SERVICE MANAGER ===")
     while True:
         main_menu()
-        choice = input("\nEnter your choice: ").strip()
+        choice = input("\nEnter your choice (or 'q' to quit): ").strip().lower()
 
-        if choice == "0":
+        if choice in ("0", "q"):
             exit_program()
         elif choice == "1":
             customer_menu()
@@ -42,27 +44,27 @@ def main():
 
 # ========== MAIN MENU ==========
 def main_menu():
-    print("\n MAIN MENU")
-    print("1. 👤 Customer Management")
-    print("2. Plan Management")
-    print("3. Subscription Management")
+    print("\n=== MAIN MENU ===")
+    print("1. 👤 Manage Customers")
+    print("2. Manage Internet Plans")
+    print("3. Manage Subscriptions")
     print("0. Exit")
 
 # ========== CUSTOMER MENU ==========
 def customer_menu():
     while True:
-        print("\n👤 CUSTOMER MANAGEMENT")
+        print("\n=== 👤 CUSTOMER MANAGEMENT ===")
         print("1. List all customers")
         print("2. Add new customer")
         print("3. Find customer by email")
         print("4. Update customer")
-        print("5. Delete customer")
+        print("5. ❌ Delete customer")
         print("6. View subscriptions for customer")
         print("0. Back to main menu")
 
-        choice = input("\nEnter your choice: ").strip()
+        choice = input("\nEnter your choice (or 'b' to go back): ").strip().lower()
 
-        if choice == "0":
+        if choice in ("0", "b"):
             break
         elif choice == "1":
             list_customers()
@@ -82,17 +84,17 @@ def customer_menu():
 # ========== PLAN MENU ==========
 def plan_menu():
     while True:
-        print("\nPLAN MANAGEMENT")
+        print("\n=== PLAN MANAGEMENT ===")
         print("1. List all plans")
         print("2. Add new plan")
         print("3. Find plan by name")
         print("4. Update plan")
-        print("5. Delete plan")
+        print("5. ❌ Delete plan")
         print("0. Back to main menu")
 
-        choice = input("\nEnter your choice: ").strip()
+        choice = input("\nEnter your choice (or 'b' to go back): ").strip().lower()
 
-        if choice == "0":
+        if choice in ("0", "b"):
             break
         elif choice == "1":
             list_plans()
@@ -110,16 +112,18 @@ def plan_menu():
 # ========== SUBSCRIPTION MENU ==========
 def subscription_menu():
     while True:
-        print("\nSUBSCRIPTION MANAGEMENT")
+        print("\n=== 📦 SUBSCRIPTION MANAGEMENT ===")
         print("1. List all subscriptions")
         print("2. Create new subscription")
         print("3. Find subscriptions by customer")
         print("4. Update subscription status")
+        print("5. View expiring subscriptions")
+        print("6. Filter subscriptions by status")  
         print("0. Back to main menu")
 
-        choice = input("\nEnter your choice: ").strip()
+        choice = input("\nEnter your choice (or 'b' to go back): ").strip().lower()
 
-        if choice == "0":
+        if choice in ("0", "b"):
             break
         elif choice == "1":
             list_subscriptions()
@@ -129,6 +133,10 @@ def subscription_menu():
             find_subscriptions_by_customer()
         elif choice == "4":
             update_subscription_status()
+        elif choice == "5":
+            list_expiring_subscriptions()
+        elif choice == "6":
+            filter_subscriptions_by_status() 
         else:
             print("❌ Invalid choice.")
 

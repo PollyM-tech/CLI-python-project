@@ -3,8 +3,13 @@ from .shared_helpers import (
     exit_program,
     validate_email,
     validate_phone,
-    format_date
+    format_date,
+    get_int_input,
+    get_float_input,
+    parse_date_input,
+    SUBSCRIPTION_STATUSES
 )
+
 from .customer_helpers import (
     list_customers,
     create_customer,
@@ -12,6 +17,7 @@ from .customer_helpers import (
     update_customer,
     delete_customer
 )
+
 from .plan_helpers import (
     list_plans,
     create_plan,
@@ -19,12 +25,16 @@ from .plan_helpers import (
     update_plan,
     delete_plan
 )
+
 from .subscription_helpers import (
     list_subscriptions,
     create_subscription,
     find_subscriptions_by_customer,
-    update_subscription_status
+    update_subscription_status,
+    list_expiring_subscriptions,
+    filter_subscriptions_by_status
 )
+
 
 __all__ = [
     'clear_screen',
@@ -32,6 +42,10 @@ __all__ = [
     'validate_email',
     'validate_phone',
     'format_date',
+    'get_int_input',
+    'get_float_input',
+    'parse_date_input',
+    'SUBSCRIPTION_STATUSES',
     'list_customers',
     'create_customer',
     'find_customer_by_email',
@@ -45,5 +59,7 @@ __all__ = [
     'list_subscriptions',
     'create_subscription',
     'find_subscriptions_by_customer',
-    'update_subscription_status'
+    'update_subscription_status',
+    'list_expiring_subscriptions',
+    'filter_subscriptions_by_status'
 ]

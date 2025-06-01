@@ -1,8 +1,8 @@
-# lib/models/subscription.py
 from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from . import Base, session
+from datetime import date
 
 class Subscription(Base):
     __tablename__ = 'subscriptions'
@@ -52,6 +52,10 @@ class Subscription(Base):
         return session.query(cls).filter_by(customer_id=customer_id).all()
 
     @classmethod
+    def filter_by_status(cls, status):
+        return session.query(cls).filter_by(status=status).all()
+
+    @classmethod
     def update(cls, id, **kwargs):
         try:
             sub = cls.find_by_id(id)
@@ -80,5 +84,18 @@ class Subscription(Base):
             print(f"❌ Error deleting subscription: {e}")
             return False
 
+    @property
+    def days_left(self):
+        if self.end_date:
+            return (self.end_date - date.today()).days
+        return None
+
+    @property
+    def is_expired(self):
+        return self.days_left is not None and self.days_left < 0
+
     def __repr__(self):
         return f"<Subscription {self.id}: Customer {self.customer_id}, Plan {self.plan_id}, Status {self.status}>"
+
+    def __str__(self):
+        return f"Sub#{self.id}: {self.customer.name} on {self.plan.name} | Status: {self.status} | Ends: {self.end_date}"

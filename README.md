@@ -1,15 +1,18 @@
 # 🌐 PLY ISP Management CLI
 
-- A command-line tool for managing internet service customers, subscription plans, and billing. Designed using SQLAlchemy ORM and Python, this app supports CRUD operations for Customers, Plans, and Subscriptions.
+- A command-line application to manage internet customers, plans, and subscriptions — built with Python and SQLAlchemy ORM. Designed for small to mid-size ISPs or simulations, the app features CRUD functionality, relational integrity, and a clean modular CLI interface.
+
 
 ## Features
 
-- Customer management (Create, Read, Update, Delete)
-- Internet plan management (Create, Read, Update, Delete)
-- Subscription management (Create, View, Update, Delete)
-- Clear and modular CLI menus
-- Built-in validations for data integrity
-- Realistic data seeding using Faker
+- **Customer Management** — Add, view, update, and delete users
+- **Internet Plans** — Define, modify, or remove service tiers
+- **Subscriptions** — Link customers to plans with start/end dates and status
+- **Status Filtering** — Quickly filter subscriptions by `active`, `expired`, etc.
+- **Expiring Alerts** — View subscriptions ending within 30 days
+- **Data Validations** — Email, phone, router ID checks built-in
+- **Realistic Seeding** — Auto-generates realistic data using Faker
+
 
 ## Requirements
 Python 3.8+
@@ -56,13 +59,18 @@ python lib/seed.py
 python lib/cli.py
 
 ## 👤 Sample Users
-Seeded by default using Faker. Example:
-Pauline Moraa
-Linus Wafula
-Daniel Lumumba
+generated with random details
 
  ## Testing
- python lib/test_database.py
+ python lib/test_database.py it includes:
+
+- Entity counts
+
+- Orphan detection
+
+- Relationship test (Customer ↔ Subscription)
+
+- Unique constraint checks
 
  # Project Structure 
  .
@@ -84,6 +92,16 @@ Daniel Lumumba
         ├── plan_helpers.py
         └── subscription_helpers.py
 
+## Future Improvements
+- Invoice tracking
+
+- Payment history
+
+- Role-based user authentication (admin vs staff)
+
+- Export reports (CSV or PDF)
+
+- Web version via Flask or FastAPI
 
 ## Licence
 Pauline Moraa

@@ -1,14 +1,14 @@
-# lib/models/plan.py
 from sqlalchemy import Column, Integer, String, Numeric, DateTime
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
+from sqlalchemy.exc import IntegrityError
 from . import Base, session
 
 class Plan(Base):
     __tablename__ = 'plans'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    name = Column(String, unique=True, nullable=False)
     description = Column(String)
     price = Column(Numeric(10, 2), nullable=False)
     speed = Column(String, nullable=False)
@@ -20,6 +20,10 @@ class Plan(Base):
 
     @classmethod
     def create(cls, name, description, price, speed, duration_months):
+        existing = session.query(cls).filter_by(name=name).first()
+        if existing:
+            print(f"❌ Plan with name '{name}' already exists.")
+            return None
         try:
             plan = cls(
                 name=name,
@@ -31,6 +35,10 @@ class Plan(Base):
             session.add(plan)
             session.commit()
             return plan
+        except IntegrityError:
+            session.rollback()
+            print("❌ Integrity Error: Plan with this name already exists.")
+            return None
         except Exception as e:
             session.rollback()
             print(f"❌ Error creating plan: {e}")
@@ -79,3 +87,6 @@ class Plan(Base):
 
     def __repr__(self):
         return f"<Plan {self.id}: {self.name} ({self.speed}) - KES {self.price}/mo>"
+
+    def __str__(self):
+        return f"{self.name} – {self.speed}, KES {self.price}/mo, {self.duration_months} mo"
